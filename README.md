@@ -23,16 +23,55 @@ The application must include:
 
 ---
 
-### USAGE
+## INSTALLATION
 
-#### Launch each Python file in the console
+### - Clone the repository :
+`git clone https://github.com/Tit-Co/OpenClassrooms_Project_04.git`
+
+### - Navigate into the project directory :
+`cd OpenClassrooms_Project_04`
+
+### - Create a virtual environment and dependencies :
+#### Option 1 - with [uv](https://docs.astral.sh/uv/)
+
+`uv` is an environment and dependencies manager.
+
+### - Install environment and dependencies
+
+`uv sync`
+
+#### Option 2 - with pip
+
+### - Install the virtual env :
+
+`python -m venv env`
+
+### - Activate the virtual env :
+`source env/bin/activate`  
+Or  
+`env\Scripts\activate` on Windows  
+
+### - Install dependencies 
+#### Option 1 - with [uv](https://docs.astral.sh/uv/)
+
+`uv pip install -U -r requirements.txt`
+
+#### Option 2 - with pip
+
+`pip install -r requirements.txt` 
+
+---
+
+## USAGE
+
+### Launch each Python file in the console
 Examples: 
 `python bruteforce.py`
 `python optimized.py`
 
 ---
 
-### EXAMPLES
+## EXAMPLES
 
 <p align="center">
     <img src="./screenshots/example_1.png" width="auto" style="border: 1px solid grey; border-radius: 10px;">
@@ -40,29 +79,29 @@ Examples:
 
 ---
 
-### MAIN FEATURES
+## MAIN FEATURES
 
 - 
 
 ---
 
-### EXPLANATIONS OF WHAT THE APP DOES
+## EXPLANATIONS OF WHAT THE APP DOES
 
-#### <u>Bruteforce version</u>
-
-...
-
-#### <u>Optimized version</u>
+### <u>Bruteforce version</u>
 
 ...
 
-#### <u>Final backtested version</u>
+### <u>Optimized version</u>
+
+...
+
+### <u>Final backtested version</u>
 
 ...
 
 ---
 
-### PROPOSED IMPROVEMENTS
+## PROPOSED IMPROVEMENTS
 
 - ...
 
