@@ -55,44 +55,53 @@ def display_results(results_list, profit):
     print(f"            For the best profit : {profit}€")
     print("-" * 65)
 
-def build_tree(actions_list, current_profit, current_cost, current_path):
-    if not actions_list:
-        print("All actions are done.")
-        return current_path, current_profit
+def max_profits(actions_list, max_cost):
+    actions_profits = [action[3] for action in actions_list]
+    actions_costs = [action[1] for action in actions_list]
 
-    action = actions_list[0]
-    action_cost = action[1]
-    action_profit = action[3]
+    n = len(actions_list)
 
-    # Right branch
-    print(f"Building right tree without action {action[0]}...")
-    right_best_path, right_best_profit = build_tree(actions_list[1:].copy(), current_profit, current_cost, current_path)
+    costs_table = [[0 for _ in range(max_cost + 1)] for _ in range(n + 1)]
 
-    # Left branch
-    if current_cost + action_cost <= MAX_COST:
-        new_path = current_path + [action]
-        print(f"Building left tree with action {action[0]}...")
-        left_best_path, left_best_profit = build_tree(actions_list[1:], current_profit + action_profit, current_cost + action_cost, new_path)
-    else:
-        print("Max cost exceeded!")
-        left_best_path, left_best_profit = ([], 0.0)
+    for i in range(1, n + 1):
+        for c in range(max_cost + 1):
+            if actions_costs[i - 1] > c:
+                costs_table[i][c] = costs_table[i - 1][c]
+            else:
+                costs_table[i][c] = max(costs_table[i - 1][c],
+                                        costs_table[i - 1][c - actions_costs[i - 1]] + actions_profits[i - 1])
 
-    if left_best_profit > right_best_profit:
-        print(f"Best profit : {left_best_profit}")
-        return left_best_path, left_best_profit
-    else:
-        print(f"Best profit : {right_best_profit}")
-        return right_best_path, right_best_profit
+    return costs_table[n][max_cost], costs_table
+
+def optimized_solution(actions_list, max_cost):
+    actions_costs = [action[1] for action in actions_list]
+
+    n = len(actions_list)
+
+    max_profit, costs_table = max_profits(actions_list, max_cost)
+
+    cost = max_cost
+    selection = []
+
+    for i in range(n, 0, -1):
+        if costs_table[i][cost] != costs_table[i - 1][cost]:
+            selection.append(actions_list[i - 1])
+            cost -= actions_costs[i - 1]
+
+    return max_profit, selection
 
 def main():
     actions = get_actions()
 
+    # list for test
+    # actions = [["action-1", 3, 12, 0.36], ["action-2", 2, 9, 0.18], ["action-3", 4, 19, 0.76]]
+
+    print("List of actions :\n")
     display_actions(actions)
 
-    best_path, best_profit = build_tree(actions, 0.0, 0, [])
+    best_profit, best_path = optimized_solution(actions, MAX_COST)
 
     display_results(best_path, best_profit)
-
 
 
 if __name__ == "__main__":
