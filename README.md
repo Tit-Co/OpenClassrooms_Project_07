@@ -66,22 +66,26 @@ Or
 
 ### Launch each Python file in the console
 Examples: 
-`python bruteforce.py`
-`python optimized.py`
+- For the brute-force version : `python bruteforce.py`
+- For the optimized version : `python optimized.py`
+- For the optimized version and with solutions backtest : `python main.py`
 
 ---
 
 ## EXAMPLES
 
 <p align="center">
-    <img src="./screenshots/example_1.png" width="auto" style="border: 1px solid grey; border-radius: 10px;">
+    <img src="./screenshots/bruteforce_screenshot.png" width="auto" style="border: 1px solid grey; border-radius: 10px;">
+    <img src="./screenshots/optimized_screenshot.png" width="auto" style="border: 1px solid grey; border-radius: 10px;">
 </p>
 
 ---
 
 ## MAIN FEATURES
 
-- 
+- Brute-force
+- Optimized
+- Backtested and optimized
 
 ---
 
@@ -89,23 +93,20 @@ Examples:
 
 ### <u>Bruteforce version</u>
 
-...
+- Calculate the best actions path using brute-force algorithm. 
+All combinations are calculated by building a recursive tree.
 
 ### <u>Optimized version</u>
 
-...
+- Calculate the best actions path using the dynamic programming algorithm 
+which is better optimized than the previous one.
 
-### <u>Final backtested version</u>
+### <u>Final backtested and optimized version</u>
 
-...
-
+- Calculate the best action path using the optimized algorithm and perform backtests on this solution, then compare the
+results to a third-party solution applied to the same datasets.
 ---
 
-## PROPOSED IMPROVEMENTS
-
-- ...
-
----
 
 ![Python](https://img.shields.io/badge/python-3.13-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
