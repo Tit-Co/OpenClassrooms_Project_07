@@ -5,8 +5,6 @@ from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 from pathlib import Path
 
-from src.backtest.filter import filter_dataframe
-
 
 CURRENT_DIR = Path(os.getcwd())
 
@@ -27,8 +25,6 @@ class Visualizer:
             dataset (str): The name of the dataset
             dataframe (DataFrame): The Pandas dataframe
         """
-        df = filter_dataframe(dataframe=dataframe, column_name="price")
-
         name_col = 'name' if 'name' in dataframe.columns else ('action' if 'action' in dataframe.columns else None)
 
         statistics = dataframe.describe()
@@ -59,14 +55,13 @@ class Visualizer:
             dataset (str): The name of the dataset
             dataframe (DataFrame): The Pandas dataframe
         """
-        df = filter_dataframe(dataframe=dataframe, column_name="profit")
 
         name_col = 'name' if 'name' in dataframe.columns else ('action' if 'action' in dataframe.columns else None)
 
-        statistics = df.describe()
+        statistics = dataframe.describe()
 
         fig = plt.figure(figsize=(24, 12))
-        plt.bar(df[name_col], df['profit'], color='orange')
+        plt.bar(dataframe[name_col], dataframe['profit'], color='orange')
         plt.title(f"Bar chart of the profits of actions in {dataset}".upper())
         plt.xlabel('Action')
         plt.ylabel('Profit')
@@ -92,12 +87,12 @@ class Visualizer:
             dataframe (DataFrame): The Pandas dataframe
             log_scale (bool): The boolean flag
         """
-        df_prices = filter_dataframe(dataframe=dataframe, column_name="price")
+        df_prices = pd.to_numeric(dataframe['price'], errors='coerce')
 
-        df_profits = filter_dataframe(dataframe=dataframe, column_name="profit")
+        df_profits = pd.to_numeric(dataframe['profit'], errors='coerce')
 
         fig = plt.figure(figsize=(24, 12))
-        plt.boxplot([df_prices['price'], df_profits['profit']], tick_labels=["Costs", "Profits"])
+        plt.boxplot([df_prices, df_profits], tick_labels=["Costs", "Profits"])
         if log_scale:
             plt.yscale('log')
 

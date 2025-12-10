@@ -1,6 +1,3 @@
-import pandas as pd
-
-
 def filter_not_positive_actions(actions: list) -> tuple[list, list]:
     """
     Filter out actions that do not have positive values.
@@ -66,23 +63,3 @@ def filter_actions(actions: list) -> tuple[list, list, list]:
 
     return filtered_actions, duplicated_trash, not_positive_trash
 
-def filter_dataframe(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    """
-    Filter out the datas in the column from the dataframe.
-    Remove the not numeric elements, the NaN elements, the duplicated elements and the not positive elements.
-    Args:
-        dataframe (DataFrame): The dataframe to filter.
-        column_name (str): The name of the column to filter.
-
-    Returns:
-    The filtered dataframe.
-    """
-    dataframe = dataframe.copy()
-    dataframe[column_name] = pd.to_numeric(dataframe[column_name], errors='coerce')
-
-    dataframe = (
-        dataframe.dropna(subset=[column_name])
-        .drop_duplicates(subset=[column_name])
-    )
-    dataframe = dataframe[dataframe[column_name] > 0]
-    return dataframe

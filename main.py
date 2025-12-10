@@ -1,5 +1,6 @@
 import src.backtested_optimized as bo
 
+
 def main():
     bo.main()
 
