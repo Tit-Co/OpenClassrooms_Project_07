@@ -42,8 +42,8 @@ class Visualizer:
         plt.show()
 
         image_name = f"{self.index}_costs_barchart_" + dataset.replace(' ', '_').lower() + ".png"
-        path = CURRENT_DIR / "data" / "images" / image_name
-        self.save_fig(fig, dataset, path)
+        path = CURRENT_DIR / "../data/images" / image_name
+        self.save_fig(fig, dataset, path.resolve())
 
         self.index += 1
         plt.close(fig)
@@ -73,8 +73,8 @@ class Visualizer:
         plt.show()
 
         image_name = f"{self.index}_profits_barchart_" + dataset.replace(' ', '_').lower() + ".png"
-        path = CURRENT_DIR / "data" / "images" / image_name
-        self.save_fig(fig, dataset, path)
+        path = CURRENT_DIR / "../data/images" / image_name
+        self.save_fig(fig, dataset, path.resolve())
         self.index += 1
         plt.close(fig)
 
@@ -100,8 +100,8 @@ class Visualizer:
         plt.show()
 
         image_name = f"{self.index}_boxplot_" + dataset.replace(' ', '_').lower() + ".png"
-        path = CURRENT_DIR / "data" / "images" / image_name
-        self.save_fig(fig, dataset, path)
+        path = CURRENT_DIR / "../data/images" / image_name
+        self.save_fig(fig, dataset, path.resolve())
         self.index += 1
 
         plt.close(fig)
@@ -138,9 +138,9 @@ class Visualizer:
         plt.show()
 
         image_name = f"{self.index}_scatterplot_" + dataset.replace(' ', '_').lower() + ".png"
-        path = CURRENT_DIR / "data" / "images" / image_name
+        path = CURRENT_DIR / "../data/images" / image_name
 
-        self.save_fig(fig, dataset, path)
+        self.save_fig(fig, dataset, path.resolve())
         self.index += 1
 
         plt.close(fig)

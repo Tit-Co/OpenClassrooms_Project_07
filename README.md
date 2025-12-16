@@ -98,7 +98,7 @@ Examples:
     <img src="./screenshots/bruteforce_screenshot.png" width="auto" style="border: 1px solid grey; border-radius: 10px;">
 </p>
 
-- Optimized : Dynamic Programing
+- Optimized : Dynamic Programming
 <p align="center">
     <img src="./screenshots/optimized_screenshot.png" width="auto" style="border: 1px solid grey; border-radius: 10px;">
 </p>
