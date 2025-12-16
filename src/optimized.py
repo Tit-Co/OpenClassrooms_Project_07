@@ -1,9 +1,11 @@
+import csv
 import os
-import pandas as pd
 from pathlib import Path
 
+from src.timer import Timer
 
-ACTIONS_FILE = "Liste+d'actions+-+P7+Python+-+Feuille+1.csv"
+
+ACTIONS_FILE = "actions_list.csv"
 
 CURRENT_DIR = Path(os.getcwd())
 
@@ -12,31 +14,26 @@ ACTIONS_FILEPATH = CURRENT_DIR / "../data" / ACTIONS_FILE
 MAX_COST = 500
 
 
-def get_actions() -> list | None:
-    """
-    Get actions from a file. Round the cost of actions calling int method.
-    Returns:
-    The list of actions.
-    """
+def get_actions():
     try:
-        df = pd.read_csv(ACTIONS_FILEPATH)
-        actions_list = df.values.tolist()
-        actions_list.remove(actions_list[0])
+        with open(str(ACTIONS_FILEPATH), "r", encoding="utf-8") as f:
 
-        actions = []
+            reader = csv.reader(f)
+            actions_list = list(reader)
+            actions_list.remove(actions_list[0])
 
-        for action in actions_list:
-            cost = int(action[1])
-            benefice = int(action[2].strip('%'))
-            profit = float((benefice / 100) * cost)
-            action = [action[0], cost, benefice, profit]
-            actions.append(action)
-            print(action)
-        return actions
+            actions = []
+            for action in actions_list:
+                cost = int(action[1])
+                benefice = int(action[2].strip('%'))
+                profit = float((benefice / 100) * cost)
+                actions.append([action[0], cost, benefice, profit])
+            return actions
 
     except Exception as e:
         print(f"ERROR reading {ACTIONS_FILEPATH}: {e}")
         return None
+
 
 def get_actions_2() -> list | None:
     """
@@ -45,20 +42,20 @@ def get_actions_2() -> list | None:
     The list of actions.
     """
     try:
-        df = pd.read_csv(ACTIONS_FILEPATH)
-        actions_list = df.values.tolist()
-        actions_list.remove(actions_list[0])
+        with open(str(ACTIONS_FILEPATH), "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            actions_list = list(reader)
+            actions_list.remove(actions_list[0])
 
-        actions = []
+            actions = []
 
-        for action in actions_list:
-            cost = int(float(action[1]) * 100)
-            benefice = int(action[2].strip('%'))
-            profit = float((benefice / 100) * cost)
-            action = [action[0], cost, benefice, profit]
-            actions.append(action)
-            print(action)
-        return actions
+            for action in actions_list:
+                cost = int(float(action[1]) * 100)
+                benefice = int(action[2].strip('%'))
+                profit = float((benefice / 100) * cost)
+                action = [action[0], cost, benefice, profit]
+                actions.append(action)
+            return actions
 
     except Exception as e:
         print(f"ERROR reading {ACTIONS_FILEPATH}: {e}")
@@ -115,7 +112,7 @@ def display_results(results: list, profit: float, cost:float) -> None:
     print("-" * 65)
     display_actions(actions=results)
     print("-" * 65)
-    print(f"   WITH BEST PROFIT = {profit}€, and TOTAL COST = {cost}€")
+    print(f"   WITH BEST PROFIT = {round(profit, 2)}€, and TOTAL COST = {cost}€")
     print("-" * 65)
 
 def max_profits(actions: list, max_cost: int) -> tuple[int, list[list[int]]]:
@@ -178,24 +175,12 @@ def main():
     """
     The main method.
     """
-    # actions = get_actions()
-    #
-    # # Short list for test purpose
-    # # actions = [["action-1", 3, 12, 0.36], ["action-2", 2, 9, 0.18], ["action-3", 4, 19, 0.76]]
-    #
-    # print("List of actions :\n")
-    # display_actions(actions=actions)
-    #
-    # best_profit, total_cost, best_path = optimized_solution(actions=actions, max_cost=MAX_COST)
-    #
-    # display_results(results=best_path, profit=best_profit, cost=total_cost)
+    # 20 actions
+    timer = Timer()
 
     actions = get_actions_2()
 
-    # Short list for test purpose
-    # actions = [["action-1", 3, 12, 0.36], ["action-2", 2, 9, 0.18], ["action-3", 4, 19, 0.76]]
-
-    print("List of actions :\n")
+    print(f"\n• List of {len(actions)} actions :\n")
     display_actions(actions=actions)
 
     best_profit, total_cost, best_path = optimized_solution(actions=actions, max_cost=MAX_COST * 100)
@@ -203,6 +188,45 @@ def main():
     real_best_profit, real_total_cost, real_best_path = real_values(best_profit, total_cost, best_path)
 
     display_results(results=real_best_path, profit=real_best_profit, cost=real_total_cost)
+
+    time_20 = timer.get_time()
+
+    # 10 actions
+    timer.restart()
+
+    actions = get_actions_2()[10:]
+
+    print(f"\n• List of {len(actions)} actions :\n")
+    display_actions(actions=actions)
+
+    best_profit, total_cost, best_path = optimized_solution(actions=actions, max_cost=MAX_COST * 100)
+
+    real_best_profit, real_total_cost, real_best_path = real_values(best_profit, total_cost, best_path)
+
+    display_results(results=real_best_path, profit=real_best_profit, cost=real_total_cost)
+
+    time_10 = timer.get_time()
+
+    # 3 actions
+    timer.restart()
+
+    actions = [["action-1", 3, 12, 0.36], ["action-2", 2, 9, 0.18], ["action-3", 4, 19, 0.76]]
+
+    print(f"\n• List of {len(actions)} actions :\n")
+    display_actions(actions=actions)
+
+    best_profit, total_cost, best_path = optimized_solution(actions=actions, max_cost=MAX_COST * 100)
+
+    real_best_profit, real_total_cost, real_best_path = real_values(best_profit, total_cost, best_path)
+
+    display_results(results=real_best_path, profit=real_best_profit, cost=real_total_cost)
+
+    time_3 = timer.get_time()
+
+    print()
+    print(f"Optimized algorithm for 3 actions executed in : {time_3: .3f} seconds.\n")
+    print(f"Optimized algorithm for 10 actions executed in : {time_10: .3f} seconds.\n")
+    print(f"Optimized algorithm for 20 actions executed in : {time_20: .3f} seconds.\n")
 
 
 if __name__ == "__main__":

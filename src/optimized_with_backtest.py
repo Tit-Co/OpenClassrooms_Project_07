@@ -9,23 +9,23 @@ import os
 from pathlib import Path
 
 
-DATASET_1 = "dataset1_Python+P7.csv"
+DATASET_1 = "dataset_1.csv"
 
-DATASET_2 = "dataset2_Python+P7.csv"
+DATASET_2 = "dataset_2.csv"
 
-SIENNA_SOLUTION_1 = "solution1_Python+P7.txt"
+SIENNA_SOLUTION_1 = "sienna_solution_1.txt"
 
-SIENNA_SOLUTION_2 = "solution2_Python+P7.txt"
+SIENNA_SOLUTION_2 = "sienna_solution_2.txt"
 
 CURRENT_DIR = Path(os.getcwd())
 
-ACTIONS_FILEPATH_1 = CURRENT_DIR / "data" / DATASET_1
+ACTIONS_FILEPATH_1 = CURRENT_DIR / "../data" / DATASET_1
 
-ACTIONS_FILEPATH_2 = CURRENT_DIR / "data" / DATASET_2
+ACTIONS_FILEPATH_2 = CURRENT_DIR / "../data" / DATASET_2
 
-SIENNA_FILEPATH_1 = CURRENT_DIR / "data" / SIENNA_SOLUTION_1
+SIENNA_FILEPATH_1 = CURRENT_DIR / "../data" / SIENNA_SOLUTION_1
 
-SIENNA_FILEPATH_2 = CURRENT_DIR / "data" / SIENNA_SOLUTION_2
+SIENNA_FILEPATH_2 = CURRENT_DIR / "../data" / SIENNA_SOLUTION_2
 
 MAX_COST = 500
 

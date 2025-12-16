@@ -2,3 +2,8 @@ env/
 .venv/
 .idea/
 data/
+
+# Temp files
+__pycache__
+*/__pycache__
+*.pyc

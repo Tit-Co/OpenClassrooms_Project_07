@@ -1,9 +1,11 @@
+import csv
 import os
-import pandas as pd
 from pathlib import Path
 
+from src.timer import Timer
 
-ACTIONS_FILE = "Liste+d'actions+-+P7+Python+-+Feuille+1.csv"
+
+ACTIONS_FILE = "actions_list.csv"
 
 CURRENT_DIR = Path(os.getcwd())
 
@@ -12,27 +14,20 @@ ACTIONS_FILEPATH = CURRENT_DIR / "../data" / ACTIONS_FILE
 MAX_COST = 500
 
 
-def get_actions() -> list | None:
-    """
-    Get the list of actions from a file.
-    Returns:
-    The list of actions.
-    """
+def get_actions():
     try:
-        df = pd.read_csv(ACTIONS_FILEPATH)
-        actions_list = df.values.tolist()
-        actions_list.remove(actions_list[0])
+        with open(str(ACTIONS_FILEPATH), "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            actions_list = list(reader)
+            actions_list.remove(actions_list[0])
 
-        actions = []
-
-        for action in actions_list:
-            cost = int(action[1])
-            benefice = int(action[2].strip('%'))
-            profit = float((benefice / 100) * cost)
-            action = [action[0], cost, benefice, profit]
-            actions.append(action)
-            print(action)
-        return actions
+            actions = []
+            for action in actions_list:
+                cost = int(action[1])
+                benefice = int(action[2].strip('%'))
+                profit = float((benefice / 100) * cost)
+                actions.append([action[0], cost, benefice, profit])
+            return actions
 
     except Exception as e:
         print(f"ERROR reading {ACTIONS_FILEPATH}: {e}")
@@ -69,7 +64,7 @@ def display_results(results: list, profit: float) -> None:
     print("-" * 65)
     display_actions(results)
     print("-" * 65)
-    print(f"            For the best profit : {profit}€")
+    print(f"            For the best profit : {round(profit, 2)}€")
     print("-" * 65)
 
 def build_tree(actions: list, current_profit: float, current_cost: int, current_path: list) -> tuple[list, float]:
@@ -94,19 +89,15 @@ def build_tree(actions: list, current_profit: float, current_cost: int, current_
 
     # Right branch
     print(f"Building right tree without action {action[0]}...")
-    right_best_path, right_best_profit = build_tree(actions=actions[1:].copy(),
-                                                    current_profit=current_profit,
-                                                    current_cost=current_cost,
-                                                    current_path=current_path)
+    right_best_path, right_best_profit = build_tree(actions[1:].copy(), current_profit, current_cost,
+                                                    current_path)
 
     # Left branch
     if current_cost + action_cost <= MAX_COST:
         new_path = current_path + [action]
         print(f"Building left tree with action {action[0]}...")
-        left_best_path, left_best_profit = build_tree(actions=actions[1:],
-                                                      current_profit=current_profit + action_profit,
-                                                      current_cost=current_cost + action_cost,
-                                                      current_path=new_path)
+        left_best_path, left_best_profit = build_tree(actions[1:], current_profit + action_profit,
+                                                      current_cost + action_cost, new_path)
     else:
         print("Max cost exceeded!")
         left_best_path, left_best_profit = ([], 0.0)
@@ -122,6 +113,9 @@ def main():
     """
     The main method.
     """
+    # 20 actions
+    timer = Timer()
+
     actions = get_actions()
 
     display_actions(actions=actions)
@@ -129,6 +123,39 @@ def main():
     best_path, best_profit = build_tree(actions=actions, current_profit=0.0, current_cost=0, current_path=[])
 
     display_results(results=best_path, profit=best_profit)
+
+    time_20 = timer.get_time()
+
+    # 10 actions
+    timer.restart()
+
+    actions = get_actions()[10:]
+
+    display_actions(actions=actions)
+
+    best_path, best_profit = build_tree(actions=actions, current_profit=0.0, current_cost=0, current_path=[])
+
+    display_results(results=best_path, profit=best_profit)
+
+    time_10 = timer.get_time()
+
+    # 3 actions
+    timer.restart()
+
+    actions = [["action-1", 3, 12, 0.36], ["action-2", 2, 9, 0.18], ["action-3", 4, 19, 0.76]]
+
+    display_actions(actions=actions)
+
+    best_path, best_profit = build_tree(actions=actions, current_profit=0.0, current_cost=0, current_path=[])
+
+    display_results(results=best_path, profit=best_profit)
+
+    time_3 = timer.get_time()
+
+    print()
+    print(f"Brute-force algorithm for 3 actions executed in : {time_3*1000: .3f} milliseconds.\n")
+    print(f"Brute-force algorithm for 10 actions executed in : {time_10*1000: .3f} milliseconds.\n")
+    print(f"Brute-force algorithm for 20 actions executed in : {time_20: .3f} seconds.\n")
 
 
 if __name__ == "__main__":
