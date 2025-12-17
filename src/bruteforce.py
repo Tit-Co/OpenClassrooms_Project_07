@@ -113,8 +113,54 @@ def main():
     """
     The main method.
     """
-    # 20 actions
+    # 30 actions
     timer = Timer()
+    timer.restart()
+
+    # 30 random actions for statistic purpose
+    actions = [
+        ["action-1", 5, 14, 0.70],
+        ["action-2", 12, 8, 0.96],
+        ["action-3", 7, 19, 1.33],
+        ["action-4", 20, 5, 1.00],
+        ["action-5", 9, 17, 1.53],
+        ["action-6", 15, 11, 1.65],
+        ["action-7", 4, 22, 0.88],
+        ["action-8", 18, 9, 1.62],
+        ["action-9", 6, 16, 0.96],
+        ["action-10", 25, 6, 1.50],
+        ["action-11", 10, 13, 1.30],
+        ["action-12", 14, 7, 0.98],
+        ["action-13", 8, 21, 1.68],
+        ["action-14", 11, 10, 1.10],
+        ["action-15", 30, 4, 1.20],
+        ["action-16", 13, 15, 1.95],
+        ["action-17", 22, 6, 1.32],
+        ["action-18", 16, 12, 1.92],
+        ["action-19", 9, 18, 1.62],
+        ["action-20", 27, 5, 1.35],
+        ["action-21", 6, 20, 1.20],
+        ["action-22", 19, 9, 1.71],
+        ["action-23", 4, 25, 1.00],
+        ["action-24", 17, 11, 1.87],
+        ["action-25", 21, 8, 1.68],
+        ["action-26", 10, 14, 1.40],
+        ["action-27", 28, 5, 1.40],
+        ["action-28", 7, 18, 1.26],
+        ["action-29", 24, 6, 1.44],
+        ["action-30", 5, 23, 1.15]
+    ]
+
+    display_actions(actions=actions)
+
+    best_path, best_profit = build_tree(actions=actions, current_profit=0.0, current_cost=0, current_path=[])
+
+    display_results(results=best_path, profit=best_profit)
+
+    time_30 = timer.get_time()
+
+    # 20 actions
+    timer.restart()
 
     actions = get_actions()
 
@@ -156,6 +202,7 @@ def main():
     print(f"Brute-force algorithm for 3 actions executed in : {time_3*1000: .3f} milliseconds.\n")
     print(f"Brute-force algorithm for 10 actions executed in : {time_10*1000: .3f} milliseconds.\n")
     print(f"Brute-force algorithm for 20 actions executed in : {time_20: .3f} seconds.\n")
+    print(f"Brute-force algorithm for 30 actions executed in : {time_30: .3f} seconds.\n")
 
 
 if __name__ == "__main__":
